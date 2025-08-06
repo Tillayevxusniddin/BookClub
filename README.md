@@ -67,7 +67,7 @@ Prerequisites
     Node.js (v16 or higher) 
     PostgreSQL
 
-Step-by-Step Guide
+# Step-by-Step Guide
     1.Clone the repository:
         ```
         git clone https://github.com/Tillayevxusniddin/book-club-system.git
