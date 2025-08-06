@@ -1,4 +1,3 @@
-// models/blogComment.js
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {
@@ -12,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        userId: { // Komment muallifi
+        userId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
@@ -20,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
                 key: 'id',
             }
         },
-        postId: { // Qaysi postga tegishli ekanligi
+        postId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
@@ -28,17 +27,17 @@ module.exports = (sequelize, DataTypes) => {
                 key: 'id',
             }
         },
-        parentId: { // Javob berilayotgan kommentning IDsi (threaded comments uchun)
+        parentId: {
             type: DataTypes.UUID,
-            allowNull: true, // Agar null bo'lsa, bu asosiy kommentariya
+            allowNull: true,
             references: {
-                model: 'BlogComments', // O'z-o'ziga ishora qiladi
+                model: 'BlogComments',
                 key: 'id'
             }
         },
     }, {
         timestamps: true,
-        tableName: 'BlogComments' // Jadval nomini aniq belgilash
+        tableName: 'BlogComments'
     });
     return BlogComment;
 };

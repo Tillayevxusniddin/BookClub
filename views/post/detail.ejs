@@ -1,6 +1,6 @@
 <div class="detail-section">
     <h2><%= post.title %></h2>
-    <p class="meta-info">Muallif: <strong><a href="/profile/<%= post.User.id %>"><%= post.User.username %></a></strong> | Yaratildi: <%= new Date(post.createdAt).toLocaleDateString() %></p>
+    <p class="meta-info">Author: <strong><a href="/profile/<%= post.User.id %>"><%= post.User.username %></a></strong> | Created: <%= new Date(post.createdAt).toLocaleDateString() %></p>
     
     <% if(post.Images && post.Images.length > 0) { %>
         <div class="post-images">
@@ -23,18 +23,17 @@
 
 <div class="detail-section">
     <div class="comments-header">
-        <h3>Kommentariyalar (<%= post.BlogComments.length %>)</h3>
+        <h3>Comments (<%= post.BlogComments.length %>)</h3>
         <% if (post.BlogComments.length > 0) { %>
             <button class="toggle-all-comments-btn" data-target-id="all-comments-container">
                 <span class="arrow">▶</span>
-                <span class="btn-text">Barchasini ko'rsatish</span>
+                <span class="btn-text">Show All</span>
             </button>
         <% } %>
     </div>
     
     <% if(currentUser) { %>
         <div id="comment-form-container">
-            <%# ... komment yozish formasi o'zgarishsiz qoladi ... %>
             <form action="/comments/blog/posts/<%= post.id %>" method="POST" id="main-comment-form">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <input type="hidden" name="parentId" id="parentIdInput">
@@ -43,16 +42,14 @@
                     <button type="button" id="cancel-reply-btn">&times;</button>
                 </div>
                 <div class="form-group">
-                    <textarea name="content" rows="3" placeholder="O'z fikringizni yozing..." required></textarea>
+                    <textarea name="content" rows="3" placeholder="Write your opinion..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary btn-small">Yuborish</button>
+                <button type="submit" class="btn btn-primary btn-small">Submit</button>
             </form>
         </div>
     <% } else { %>
-        <p><a href="/login">Kommentariya yozish uchun tizimga kiring.</a></p>
+        <p><a href="/login">Log in to post a comment.</a></p>
     <% } %>
-
-    <%# Butun kommentlar ro'yxatini yangi konteynerga o'raymiz %>
     <div id="all-comments-container" class="all-comments-wrapper">
         <div class="blog-comment-list">
             <% if (comments && comments.length > 0) { %>
@@ -60,7 +57,7 @@
                     <%- include('../partials/_blogComment', { comment: comment, level: 0, currentUser: currentUser }) %>
                 <% }) %>
             <% } else { %>
-                <p>Hali kommentariyalar mavjud emas. Birinchi bo'lib yozing!</p>
+                <p>There are no comments yet. Be the first!</p>
             <% } %>
         </div>
     </div>

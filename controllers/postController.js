@@ -1,7 +1,5 @@
-// controllers/postController.js
 const { Post, Image, Hashtag, BlogComment, User, sequelize } = require('../models');
 
-// Kommentlarni daraxtsimon qilish uchun yordamchi funksiya
 const buildCommentTree = (comments) => {
     const commentMap = new Map(comments.map(comment => [comment.id, comment]));
     commentMap.forEach(comment => {
@@ -18,7 +16,6 @@ const buildCommentTree = (comments) => {
     return tree;
 };
 
-// Barcha postlar ro'yxatini ko'rsatish
 exports.getAllPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
@@ -30,26 +27,24 @@ exports.getAllPosts = async (req, res) => {
         });
         res.render('post/list', { title: "Blog", posts: posts, csrfToken: req.csrfToken() });
     } catch (error) {
-        console.error("Barcha postlarni olishda xatolik:", error);
-        req.flash('error', "Postlarni yuklashda xatolik yuz berdi.");
+        console.error("Error retrieving all posts:", error);
+        req.flash('error', "There was an error loading posts.");
         res.redirect('/');
     }
 };
 
-// Post yaratish formasini ko'rsatish
 exports.showCreateForm = (req, res) => {
     try {
         res.render('post/create', { 
-        title: 'Yangi Post Yaratish',
-        csrfToken: req.csrfToken() 
+            title: 'Create New Post',
+            csrfToken: req.csrfToken() 
         });
     } catch (error) {
         console.error(error);
-        res.status(500).send("Sahifani yuklashda xatolik yuz berdi.");
+        res.status(500).send("An error occurred while loading the page.");
     }
 };
 
-// Yangi post yaratish
 exports.createPost = async (req, res) => {
     const { title, content } = req.body;
     const t = await sequelize.transaction();
@@ -70,20 +65,19 @@ exports.createPost = async (req, res) => {
         }
 
         await t.commit();
-        req.flash('success', 'Post muvaffaqiyatli yaratildi!');
+        req.flash('success', 'Post was successfully created!');
         res.redirect(`/posts/${post.id}`);
     } catch (error) {
         await t.rollback();
-        console.error("Post yaratishda xatolik:", error);
-        req.flash('error', "Post yaratishda xatolik yuz berdi. Iltimos, qayta urining.");
+        console.error("Error while creating post:", error);
+        req.flash('error', "An error occurred while creating the post. Please try again.");
         res.status(422).render('post/create', {
-            title: "Yangi post yaratish",
+            title: "Create New Post",
             post: { title, content }
         });
     }
 };
 
-// Bitta postni ko'rsatish
 exports.getPost = async (req, res) => {
     try {
         const post = await Post.findByPk(req.params.id, {
@@ -96,7 +90,7 @@ exports.getPost = async (req, res) => {
             order: [[BlogComment, 'createdAt', 'ASC']]
         });
         if (!post) {
-            req.flash('error', "Post topilmadi.");
+            req.flash('error', "Post not found.");
             return res.redirect('/');
         }
         const commentsInTree = buildCommentTree(post.BlogComments);
@@ -107,8 +101,8 @@ exports.getPost = async (req, res) => {
             comments: commentsInTree
         });
     } catch (error) {
-        console.error("Postni olishda xatolik:", error);
-        req.flash('error', "Postni yuklashda xatolik yuz berdi.");
+        console.error("Error while retrieving post:", error);
+        req.flash('error', "An error occurred while loading the post.");
         res.redirect('/');
     }
 };

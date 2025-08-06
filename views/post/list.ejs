@@ -1,7 +1,7 @@
 <div class="page-title-container" style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>Blogdagi So'nggi Postlar</h2>
+    <h2>Recently Blog Posts</h2>
     <% if (currentUser) { %>
-        <a href="/posts/create" class="btn btn-primary">Yangi post yaratish</a>
+        <a href="/posts/create" class="btn btn-primary">Create New Post</a>
     <% } %>
 </div>
 
@@ -12,16 +12,16 @@
                 <div>
                     <h3><a href="/posts/<%= post.id %>"><%= post.title %></a></h3>
                     <% if(post.User) { %>
-                       <p><small>Muallif: <a href="/profile/<%= post.User.id %>"><%= post.User.username %></a></small></p>
+                       <p><small>Author: <a href="/profile/<%= post.User.id %>"><%= post.User.username %></a></small></p>
                     <% } %>
                     <p><%= post.content.substring(0, 150) %>...</p>
                 </div>
                 <div class="actions">
-                    <a href="/posts/<%= post.id %>" class="btn btn-secondary">To'liq o'qish</a>
+                    <a href="/posts/<%= post.id %>" class="btn btn-secondary">More Details</a>
                 </div>
             </div>
         <% }) %>
     </div>
 <% } else { %>
-    <p>Hali hech kim post yozmabdi. Birinchi bo'lib siz yozasizmi?</p>
+    <p>No one has posted yet. Will you be the first?</p>
 <% } %>

@@ -18,18 +18,13 @@
                 <% } %>
             </div>
         </div>
-
-        <%# --- O'ZGARTIRILGAN QISM --- %>
-        <%# Agar kommentning javoblari bo'lsa, ochib-yopish tugmasi va konteynerini qo'shamiz %>
         <% if (comment.Replies && comment.Replies.length > 0) { %>
             <div class="comment-toggle-container">
                 <button class="toggle-replies-btn" data-target-id="blog-replies-<%= comment.id %>">
                     <span class="arrow">▶</span>
-                    <span class="btn-text">Javoblarni ko'rish (<%= comment.Replies.length %>)</span>
+                    <span class="btn-text">Show Replies (<%= comment.Replies.length %>)</span>
                 </button>
             </div>
-            
-            <%# Mavjud ".replies" diviga ID va yangi klass qo'shamiz %>
             <div class="replies-container" id="blog-replies-<%= comment.id %>">
                 <% comment.Replies.forEach(reply => { %>
                     <%- include('_blogComment', { comment: reply, level: (level || 0) + 1, currentUser: currentUser }) %>

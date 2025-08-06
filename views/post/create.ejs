@@ -1,19 +1,19 @@
 <div class="form-container">
-    <h1>Yangi post yaratish</h1>
+    <h1>Create New Post</h1>
     <form action="/posts/create" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="form-group">
-            <label for="title">Sarlavha:</label>
+            <label for="title">Title:</label>
             <input type="text" id="title" name="title" value="<%= locals.post && post.title ? post.title : '' %>" required>
         </div>
         <div class="form-group">
-            <label for="content">Matn (xeshteglar uchun #belgi ishlating):</label>
+            <label for="content">Text (use the # symbol for hashtags):</label>
             <textarea id="content" name="content" rows="12" required><%= locals.post && post.content ? post.content : '' %></textarea>
         </div>
         <div class="form-group">
-            <label for="images">Rasmlar (5 tagacha):</label>
+            <label for="images">Images (Max->5):</label>
             <input type="file" id="images" name="images" multiple accept="image/*">
         </div>
-        <button type="submit">Postni Yaratish</button>
+        <button type="submit">Create Post</button>
     </form>
 </div>

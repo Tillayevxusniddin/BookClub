@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
     const token = req.cookies.accessToken;
     
     if (!token) {
-        req.flash('error', "Bu amalni bajarish uchun tizimga kirishingiz kerak.");
+        req.flash('error', "You must be logged in to perform this action.");
         return res.status(401).redirect('/login');
     }
 
@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
         if (err) {
             res.clearCookie('accessToken');
             res.clearCookie('refreshToken');
-            req.flash('error', "Sessiyangiz yaroqsiz yoki muddati tugagan. Iltimos, qayta kiring.");
+            req.flash('error', "Your session is invalid or has expired. Please log in again.");
             return res.status(403).redirect('/login');
         }
         req.user = user;

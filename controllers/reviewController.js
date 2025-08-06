@@ -6,18 +6,18 @@ exports.showAddReviewForm = async (req, res) => {
         const book = await Book.findByPk(bookId);
 
         if (!book) {
-            req.flash('error', "No book found to write a review."); // Corrected message
+            req.flash('error', "Book not found.");
             return res.redirect('/books');
         }
 
         const existingReview = await Review.findOne({ where: { bookId, userId: req.user.id } });
         if (existingReview) {
-            req.flash('error', "You have already written a review for this book. You can edit it."); // Corrected message
+            req.flash('error', "You have already submitted a review for this book. You can edit it.");
             return res.redirect(`/books/${bookId}`);
         }
 
         res.render('review/form', {
-            title: `Write a review for ${book.title}`, // Corrected title
+            title: `Write a Review for ${book.title}`,
             book: book,
             review: {},
             csrfToken: req.csrfToken(),
@@ -25,8 +25,8 @@ exports.showAddReviewForm = async (req, res) => {
             success: req.flash('success')
         });
     } catch (error) {
-        console.error("An error occurred while displaying the review form:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while loading the review form."); // Corrected message
+        console.error("Error displaying review form:", error);
+        req.flash('error', "An unexpected error occurred while loading the review form.");
         res.redirect('/books');
     }
 };
@@ -39,28 +39,28 @@ exports.addReview = async (req, res) => {
 
         const book = await Book.findByPk(bookId);
         if (!book) {
-            req.flash('error', "No book found to review."); // Corrected message
-            return res.redirect(`/books`);
+            req.flash('error', "Book not found.");
+            return res.redirect('/books');
         }
 
         const existingReview = await Review.findOne({ where: { bookId, userId } });
         if (existingReview) {
-            req.flash('error', "You have already written a review of this book."); // Corrected message
+            req.flash('error', "You have already submitted a review for this book.");
             return res.redirect(`/books/${bookId}`);
         }
 
         if (rating < 1 || rating > 5) {
-            req.flash('error', "The rating must be between 1 and 5.");
-            return res.redirect(`/books/${bookId}/add`); // Corrected route path
+            req.flash('error', "Rating must be between 1 and 5.");
+            return res.redirect(`/books/${bookId}/add`);
         }
 
         await Review.create({ bookId, userId, rating, comment });
-        req.flash('success', "Review added successfully.");
+        req.flash('success', "Review submitted successfully.");
         res.redirect(`/books/${bookId}`);
     } catch (error) {
-        console.error("An error occurred while adding a review:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while adding a review."); // Corrected message
-        res.redirect(`/books/${req.params.bookId}/add`); // Corrected route path
+        console.error("Error adding review:", error);
+        req.flash('error', "An unexpected error occurred while submitting the review.");
+        res.redirect(`/books/${req.params.bookId}/add`);
     }
 };
 
@@ -72,16 +72,17 @@ exports.showEditReviewForm = async (req, res) => {
         });
 
         if (!review) {
-            req.flash('error', "Review not found."); // Corrected message
+            req.flash('error', "Review not found.");
             return res.redirect('/books');
         }
+
         if (review.userId !== req.user.id && req.user.role !== 'admin') {
-            req.flash('error', "You do not have permission to edit this review."); // Corrected message
+            req.flash('error', "You do not have permission to edit this review.");
             return res.redirect(`/books/${review.bookId}`);
         }
 
         res.render('review/form', {
-            title: `Edit review for ${review.Book.title}`, // Corrected title
+            title: `Edit Review for ${review.Book.title}`,
             book: review.Book,
             review: review,
             csrfToken: req.csrfToken(),
@@ -89,8 +90,8 @@ exports.showEditReviewForm = async (req, res) => {
             success: req.flash('success')
         });
     } catch (error) {
-        console.error("An error occurred while displaying the review edit form:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while loading the review edit form."); // Corrected message
+        console.error("Error displaying edit review form:", error);
+        req.flash('error', "An unexpected error occurred while loading the edit form.");
         res.redirect('/books');
     }
 };
@@ -107,13 +108,14 @@ exports.updateReview = async (req, res) => {
             req.flash('error', "Review not found.");
             return res.redirect('/books');
         }
+
         if (review.userId !== userId && req.user.role !== 'admin') {
             req.flash('error', "You do not have permission to update this review.");
             return res.redirect(`/books/${review.bookId}`);
         }
 
         if (rating < 1 || rating > 5) {
-            req.flash('error', "The rating must be between 1 and 5.");
+            req.flash('error', "Rating must be between 1 and 5.");
             return res.redirect(`/reviews/${id}/edit`);
         }
 
@@ -121,11 +123,11 @@ exports.updateReview = async (req, res) => {
         review.comment = comment || review.comment;
         await review.save();
 
-        req.flash('success', "The review was successfully updated.");
+        req.flash('success', "Review updated successfully.");
         res.redirect(`/books/${review.bookId}`);
     } catch (error) {
-        console.error("An error occurred while updating the review:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while updating the review."); // Corrected message
+        console.error("Error updating review:", error);
+        req.flash('error', "An unexpected error occurred while updating the review.");
         res.redirect(`/reviews/${req.params.id}/edit`);
     }
 };
@@ -138,21 +140,22 @@ exports.deleteReview = async (req, res) => {
         const review = await Review.findByPk(id);
 
         if (!review) {
-            req.flash('error', "Review not found."); // Corrected message
+            req.flash('error', "Review not found.");
             return res.redirect('/books');
         }
+
         if (review.userId !== userId && req.user.role !== 'admin') {
-            req.flash('error', "You do not have permission to delete this review."); // Corrected message
+            req.flash('error', "You do not have permission to delete this review.");
             return res.redirect(`/books/${review.bookId}`);
         }
 
         const bookId = review.bookId;
         await review.destroy();
-        req.flash('success', "Review successfully deleted."); // Corrected message
+        req.flash('success', "Review deleted successfully.");
         res.redirect(`/books/${bookId}`);
     } catch (error) {
-        console.error("An error occurred while deleting the review:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while deleting the review."); // Corrected message
-        res.redirect(`/books/${req.params.id}`); // This might need to be /reviews/:id/delete if it's the specific review page
+        console.error("Error deleting review:", error);
+        req.flash('error', "An unexpected error occurred while deleting the review.");
+        res.redirect(`/books/${req.params.id}`);
     }
 };

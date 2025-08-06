@@ -1,4 +1,3 @@
-// models/image.js
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {
@@ -8,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             defaultValue: () => uuidv4(),
         },
-        url: { // Rasmning serverdagi manzili
+        url: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        postId: { // Qaysi postga tegishli ekanligi
+        postId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {

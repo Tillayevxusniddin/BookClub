@@ -1,4 +1,3 @@
-// models/post.js
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {
@@ -12,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        content: { // Siz description dedingiz, post uchun "content" nomi mosroq
+        content: { 
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        userId: { // Post muallifi
+        userId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {

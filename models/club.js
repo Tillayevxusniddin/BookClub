@@ -1,5 +1,3 @@
-// models/club.js
-
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {
@@ -19,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         adminId: {
             type: DataTypes.UUID,
-            allowNull: true, // `onDelete: 'SET NULL'` bo'lgani uchun
+            allowNull: true,
             references: {
                 model: 'Users',
                 key: 'id'

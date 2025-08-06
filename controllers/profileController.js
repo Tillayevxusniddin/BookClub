@@ -11,7 +11,6 @@ exports.showProfile = async (req, res) => {
         }
 
         const user = await User.findByPk(userId, {
-            // E'tibor bering, Profile modelini include qilish kerak
             include: [{ model: Profile, attributes: ['firstName', 'lastName', 'bio'] }],
             attributes: ['id', 'username', 'email', 'role']
         });
@@ -20,8 +19,7 @@ exports.showProfile = async (req, res) => {
             req.flash('error', "User not found.");
             return res.redirect('/clubs');
         }
-        
-        // EJS templatega to'g'ri ma'lumotlarni yuborish
+
         res.render('profile/show', {
             title: `${user.username}'s profile`,
             user: user,
@@ -35,7 +33,7 @@ exports.showProfile = async (req, res) => {
         req.flash('error', "An unexpected error occurred while loading the profile.");
         res.redirect('/clubs');
     }
-}
+};
 
 exports.showEditProfileForm = async (req, res) => {
     try {
@@ -43,7 +41,7 @@ exports.showEditProfileForm = async (req, res) => {
         const currentUser = req.user;
 
         if (currentUser.id !== userId) {
-            req.flash('error', "You are not allowed to edit this profile."); // Corrected message
+            req.flash('error', "You are not allowed to edit this profile.");
             return res.redirect(`/profile/${userId}`);
         }
 
@@ -66,11 +64,11 @@ exports.showEditProfileForm = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("An error occurred while displaying the profile edit form:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while loading the profile edit form."); // Corrected message
+        console.error("An error occurred while displaying the profile edit form:", error);
+        req.flash('error', "An unexpected error occurred while loading the profile edit form.");
         res.redirect('/clubs');
     }
-}
+};
 
 exports.updateProfile = async (req, res) => {
     try {
@@ -79,7 +77,7 @@ exports.updateProfile = async (req, res) => {
         const currentUser = req.user;
 
         if (currentUser.id !== userId) {
-            req.flash('error', "You are not allowed to update this profile."); // Corrected message
+            req.flash('error', "You are not allowed to update this profile.");
             return res.redirect(`/profile/${userId}`);
         }
 
@@ -95,12 +93,12 @@ exports.updateProfile = async (req, res) => {
         profile.bio = bio || profile.bio;
         await profile.save();
 
-        req.flash('success', "Profile updated successfully."); // Corrected message
+        req.flash('success', "Profile updated successfully.");
         res.redirect(`/profile/${userId}`);
 
     } catch (error) {
-        console.error("An error occurred while updating your profile:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while updating your profile."); // Corrected message
+        console.error("An error occurred while updating your profile:", error);
+        req.flash('error', "An unexpected error occurred while updating your profile.");
         res.redirect(`/profile/${req.params.id}/edit`);
     }
-}
+};

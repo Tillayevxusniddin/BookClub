@@ -1,7 +1,4 @@
-/* public/js/main.js */
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Flash xabarlarni bir necha soniyadan so'ng yo'qotish
     const flashMessages = document.querySelector('.flash-messages');
     if (flashMessages && flashMessages.children.length > 0) {
         setTimeout(() => {
@@ -17,21 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-
     const commentToggleButtons = document.querySelectorAll('.view-comments-btn');
-
     commentToggleButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            event.preventDefault(); // Havolaning standart harakatini bekor qilish
-
+            event.preventDefault();
             const targetId = button.getAttribute('data-target');
             const commentsSection = document.querySelector(targetId);
-            
             if (commentsSection) {
-                // 'show' klassini qo'shish yoki olib tashlash
                 commentsSection.classList.toggle('show');
-
-                // Tugma matnini holatga qarab o'zgartirish
                 if (commentsSection.classList.contains('show')) {
                     button.textContent = 'Hide comments';
                 } else {
@@ -41,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
 
     const commentForm = document.getElementById('main-comment-form');
     if (commentForm) {
@@ -55,12 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const commentId = button.getAttribute('data-comment-id');
                 const username = button.getAttribute('data-username');
-
                 parentIdInput.value = commentId;
                 replyingToText.innerText = `Replying to @${username}`;
                 replyingToContainer.style.display = 'block';
-                
-                // Formaga scroll qilish
                 commentForm.scrollIntoView({ behavior: 'smooth' });
                 commentForm.querySelector('textarea').focus();
             });
@@ -79,56 +65,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const allCommentsContainer = document.getElementById(targetId);
             const arrow = toggleAllBtn.querySelector('.arrow');
             const btnText = toggleAllBtn.querySelector('.btn-text');
-
             if (allCommentsContainer) {
                 const isShown = allCommentsContainer.classList.toggle('show');
                 if (isShown) {
                     arrow.style.transform = 'rotate(90deg)';
-                    btnText.textContent = 'Barchasini yashirish';
+                    btnText.textContent = 'Hide all';
                 } else {
                     arrow.style.transform = 'rotate(0deg)';
-                    btnText.textContent = 'Barchasini ko\'rsatish';
+                    btnText.textContent = 'Show all';
                 }
             }
         });
     }
 
-
-     document.querySelectorAll('.toggle-replies-btn').forEach(button => {
+    document.querySelectorAll('.toggle-replies-btn').forEach(button => {
         button.addEventListener('click', () => {
             const targetId = button.dataset.targetId;
             const repliesContainer = document.getElementById(targetId);
             const arrow = button.querySelector('.arrow');
             const btnText = button.querySelector('.btn-text');
-
             if (repliesContainer) {
                 const isShown = repliesContainer.classList.toggle('show');
-
                 if (isShown) {
-                    // Ochilganda
                     arrow.style.transform = 'rotate(90deg)';
-                    btnText.textContent = 'Javoblarni yashirish';
+                    btnText.textContent = 'Hide Replies';
                 } else {
-                    // Yopilganda
                     arrow.style.transform = 'rotate(0deg)';
                     const replyCount = repliesContainer.querySelectorAll('.blog-comment-item').length;
-                    btnText.textContent = `Javoblarni ko'rish (${replyCount})`;
+                    btnText.textContent = `Show Replies (${replyCount})`;
                 }
             }
         });
     });
-
-    // Navigatsiyadagi aktiv sahifani belgilash
-    // Bu qism EJS fayldagi kod orqali bajarilmoqda, shuning uchun JS da shart emas.
-    // Agar EJS da ishlamasa, quyidagi kodni ishlatish mumkin:
-    /*
-    const navLinks = document.querySelectorAll('nav ul li a');
-    const currentPath = window.location.pathname;
-
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-            link.classList.add('active');
-        }
-    });
-    */
 });

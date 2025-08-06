@@ -1,5 +1,3 @@
-// models/book.js
-
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {

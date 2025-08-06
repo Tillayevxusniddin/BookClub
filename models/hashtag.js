@@ -1,4 +1,3 @@
-// models/hashtag.js
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, DataTypes) => {
@@ -8,13 +7,13 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             defaultValue: () => uuidv4(),
         },
-        tag: { // Masalan: 'dasturlash', 'kitob'
+        tag: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true, // Xeshteglar takrorlanmasligi uchun
+            unique: true,
         },
     }, {
-        timestamps: false, // Odatda xeshteglar uchun timestamp kerak emas
+        timestamps: false,
     });
     return Hashtag;
 };

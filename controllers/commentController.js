@@ -1,4 +1,4 @@
-const { Comment, User, Review, Book } = require('../models'); // Include Book model for redirects
+const { Comment, User, Review, Book } = require('../models');
 
 exports.showAddCommentForm = async (req, res) => {
     try {
@@ -13,7 +13,7 @@ exports.showAddCommentForm = async (req, res) => {
         }
 
         res.render('comment/form', {
-            title: `Write a comment on the review`, // Corrected title
+            title: `Write a comment on the review`,
             review: review,
             comment: {},
             csrfToken: req.csrfToken(),
@@ -35,17 +35,17 @@ exports.addComment = async (req, res) => {
 
         const review = await Review.findByPk(reviewId);
         if (!review) {
-            req.flash('error', "Review not found to write a comment."); // Corrected message
+            req.flash('error', "Review not found to write a comment."); 
             return res.redirect(`/books`);
         }
 
         const newComment = await Comment.create({ reviewId, userId, content });
         req.flash('success', "Comment added successfully.");
-        res.redirect(`/books/${review.bookId}`); // Redirect to the book's detail page
+        res.redirect(`/books/${review.bookId}`); 
     } catch (error) {
-        console.error("An error occurred while adding a comment:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while adding a comment."); // Corrected message
-        res.redirect(`/reviews/${req.params.reviewId}/add`); // Corrected route path
+        console.error("An error occurred while adding a comment:", error);
+        req.flash('error', "An unexpected error occurred while adding a comment."); 
+        res.redirect(`/reviews/${req.params.reviewId}/add`); 
     }
 };
 
@@ -57,7 +57,7 @@ exports.showEditCommentForm = async (req, res) => {
         });
 
         if (!comment) {
-            req.flash('error', "Comment not found."); // Corrected message
+            req.flash('error', "Comment not found."); 
             return res.redirect('/books');
         }
         if (comment.userId !== req.user.id && req.user.role !== 'admin') {
@@ -66,7 +66,7 @@ exports.showEditCommentForm = async (req, res) => {
         }
 
         res.render('comment/form', {
-            title: `Edit comment`, // Corrected title
+            title: `Edit comment`,
             review: comment.Review,
             comment: comment,
             csrfToken: req.csrfToken(),
@@ -102,11 +102,11 @@ exports.updateComment = async (req, res) => {
         comment.content = content || comment.content;
         await comment.save();
 
-        req.flash('success', "The comment was successfully updated."); // Corrected message
+        req.flash('success', "The comment was successfully updated."); 
         res.redirect(`/books/${comment.Review.bookId}`);
     } catch (error) {
-        console.error("An error occurred while updating the comment:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while updating the comment."); // Corrected message
+        console.error("An error occurred while updating the comment:", error);
+        req.flash('error', "An unexpected error occurred while updating the comment."); 
         res.redirect(`/comments/${req.params.id}/edit`);
     }
 };
@@ -121,21 +121,21 @@ exports.deleteComment = async (req, res) => {
         });
 
         if (!comment) {
-            req.flash('error', "Comment not found."); // Corrected message
+            req.flash('error', "Comment not found."); 
             return res.redirect('/books');
         }
         if (comment.userId !== userId && req.user.role !== 'admin') {
-            req.flash('error', "You do not have permission to delete this comment."); // Corrected message
+            req.flash('error', "You do not have permission to delete this comment."); 
             return res.redirect(`/books/${comment.Review.bookId}`);
         }
 
         const bookId = comment.Review.bookId;
         await comment.destroy();
-        req.flash('success', "The comment was successfully deleted."); // Corrected message
+        req.flash('success', "The comment was successfully deleted."); 
         res.redirect(`/books/${bookId}`);
     } catch (error) {
-        console.error("An error occurred while deleting the comment:", error); // Corrected message
-        req.flash('error', "An unexpected error occurred while deleting the comment."); // Corrected message
+        console.error("An error occurred while deleting the comment:", error); 
+        req.flash('error', "An unexpected error occurred while deleting the comment.");
         res.redirect(`/books/${req.params.id}`);
     }
 };

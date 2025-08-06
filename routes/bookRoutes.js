@@ -5,12 +5,10 @@ const { verifyToken } = require('../middleware/authMiddleware');
 const { isAdmin } = require('../middleware/roleMiddleware');
 const { csrfProtection } = require('../middleware/csrfMiddleware');
 
-// Hamma uchun ochiq route'lar
 router.get('/create', verifyToken, isAdmin, csrfProtection, bookController.showCreateBookForm);
 router.get('/',csrfProtection, bookController.getAllBooks);
 router.get('/:id', csrfProtection, bookController.getBookById);
 
-// Faqat admin uchun yopiq route'lar
 router.post('/create', verifyToken, isAdmin, csrfProtection, bookController.createBook);
 router.get('/:id/edit', verifyToken, isAdmin, csrfProtection, bookController.showEditBookForm);
 router.post('/:id/edit', verifyToken, isAdmin, csrfProtection, bookController.updateBook);
