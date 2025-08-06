@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "postgres",
+    "username": "your_user",
     "password": "your_password",
     "database": "your_database",
     "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "xusniddin2004",
-    "database": "bookclub_test",
+    "username": "your_user",
+    "password": "your_password",
+    "database": "your_database",
     "host": "localhost",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "xusniddin2004",
-    "database": "bookclub_production",
+    "username": "your_user",
+    "password": "your_password",
+    "database": "your_database",
     "host": "localhost",
     "dialect": "postgres"
   }
