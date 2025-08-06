@@ -1,4 +1,3 @@
-// controllers/authController.js
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User, Profile, Token } = require('../models');
@@ -28,7 +27,6 @@ exports.showRegisterForm = (req, res) => {
 };
 
 exports.registerUser = async (req, res) => {
-    // Transaction boshlandi
     const t = await sequelize.transaction(); 
     try {
         const { username, email, password, firstName, lastName, bio } = req.body;
@@ -36,22 +34,22 @@ exports.registerUser = async (req, res) => {
         
         const newUser = await User.create({
             username, email, password: hashedPassword
-        }, { transaction: t }); // Transactionni ko'rsatamiz
+        }, { transaction: t });
 
         await Profile.create({
             userId: newUser.id, firstName, lastName, bio
-        }, { transaction: t }); // Transactionni ko'rsatamiz
+        }, { transaction: t }); 
 
-        await t.commit(); // Hammasi to'g'ri bo'lsa, o'zgarishlarni saqlaymiz
-        req.flash('success', "Siz muvaffaqiyatli ro'yxatdan o'tdingiz. Iltimos, tizimga kiring.");
+        await t.commit(); 
+        req.flash('success', "You have successfully registered. Please log in.");
         res.redirect('/login');
     } catch (error) {
-        await t.rollback(); // Xatolik bo'lsa, o'zgarishlarni bekor qilamiz
-        console.error("Ro'yxatdan o'tishda xatolik:", error);
+        await t.rollback();
+        console.error("Registration Error:", error);
         if (error.name === 'SequelizeUniqueConstraintError') {
-            req.flash('error', "Bu foydalanuvchi nomi yoki email allaqachon mavjud.");
+            req.flash('error', "This username or email is already in use.");
         } else {
-            req.flash('error', "Ro'yxatdan o'tishda kutilmagan xatolik yuz berdi.");
+            req.flash('error', "An unexpected error occurred during registration.");
         }
         res.redirect('/register');
     }
@@ -71,23 +69,21 @@ exports.loginUser = async (req, res) => {
         const user = await User.findOne({ where: { email } });
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            req.flash('error', "Incorrect email or password.");
+            req.flash('error', "Invalid email or password.");
             return res.redirect('/login');
         }
 
         const { accessToken, refreshToken } = generateTokens(user);
-        const expiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+        const expiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-        // Store the refresh token in the database
         await Token.create({
             userId: user.id,
             token: refreshToken,
             expiry: expiryDate,
         });
 
-        // Set cookies
-        res.cookie('accessToken', accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 15 * 60 * 1000 }); // 15 minutes
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60 * 1000 }); // 7 days
+        res.cookie('accessToken', accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 15 * 60 * 1000 });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60 * 1000 });
 
         req.flash('success', `Welcome back, ${user.username}!`);
         res.redirect('/clubs');
@@ -115,9 +111,5 @@ exports.logoutUser = async (req, res) => {
     }
 };
 
-// Note: The refreshToken function is for APIs. If your app is purely server-rendered EJS,
-// your global middleware in app.js should handle expired tokens by redirecting to login.
-// I'm leaving it here in case you plan to build an API.
 exports.refreshToken = async (req, res) => {
-    // This logic is okay for an API context.
 };

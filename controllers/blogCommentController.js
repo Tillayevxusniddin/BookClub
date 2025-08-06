@@ -6,7 +6,7 @@ exports.createComment = async (req, res) => {
         const { postId } = req.params;
 
         if (!content || content.trim() === '') {
-            req.flash('error', 'Kommentariya boʻsh boʻlishi mumkin emas.');
+            req.flash('error', 'Comment cannot be empty.');
             return res.redirect(`/posts/${postId}`);
         }
 
@@ -17,11 +17,11 @@ exports.createComment = async (req, res) => {
             parentId: parentId || null,
         });
 
-        req.flash('success', "Kommentariya qo'shildi.");
+        req.flash('success', "Comment added.");
         res.redirect(`/posts/${postId}`);
     } catch (error) {
-        console.error("Kommentariya qo'shishda xatolik:", error);
-        req.flash('error', 'Kommentariya qo\'shishda xatolik yuz berdi.');
+        console.error("Error adding comment:", error);
+        req.flash('error', 'There was an error adding the comment.');
         res.redirect(`/posts/${req.params.postId}`);
     }
 };

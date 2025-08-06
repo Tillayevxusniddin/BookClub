@@ -1,5 +1,3 @@
-// controllers/bookController.js
-
 const { Book, Club, Review, User, Comment } = require('../models');
 
 exports.getAllBooks = async (req, res) => {
@@ -30,13 +28,13 @@ exports.getBookById = async (req, res) => {
                 { model: Club, attributes: ['id', 'name'] },
                 {
                     model: Review,
-                    order: [['createdAt', 'DESC']], // Sharhlarni yangisidan eskisiga qarab saralash
+                    order: [['createdAt', 'DESC']],
                     include: [
-                        { model: User, attributes: ['username'] }, // Sharh avtori
+                        { model: User, attributes: ['username'] }, 
                         {
-                            model: Comment, // <<< YECHIM: HAR BIR SHARH UCHUN KOMMENTARIYALARNI HAM OLISH
-                            order: [['createdAt', 'ASC']], // Kommentariyalarni eskidan yangisiga qarab saralash
-                            include: [{ model: User, attributes: ['username'] }] // Kommentariya avtori
+                            model: Comment, 
+                            order: [['createdAt', 'ASC']], 
+                            include: [{ model: User, attributes: ['username'] }] 
                         }
                     ]
                 }
@@ -71,7 +69,7 @@ exports.showCreateBookForm = async (req, res) => {
     try {
         const clubs = await Club.findAll({ attributes: ['id', 'name'] });
         res.render('book/form', {
-            title: "Add a new book", // Corrected title
+            title: "Add a new book",
             book: {},
             clubs: clubs,
             csrfToken: req.csrfToken(),
@@ -124,7 +122,7 @@ exports.showEditBookForm = async (req, res) => {
         }
         const clubs = await Club.findAll({ attributes: ['id', 'name'] });
         res.render('book/form', {
-            title: `Edit ${book.title}`, // Corrected title
+            title: `Edit ${book.title}`,
             book: book,
             clubs: clubs,
             csrfToken: req.csrfToken(),
@@ -167,7 +165,7 @@ exports.updateBook = async (req, res) => {
         book.clubId = clubId || book.clubId;
         await book.save();
 
-        req.flash('success', "The book was successfully updated."); // Corrected message
+        req.flash('success', "The book was successfully updated."); 
         res.redirect(`/books/${id}`);
     } catch (error) {
         console.error("An error occurred while updating the book:", error);
