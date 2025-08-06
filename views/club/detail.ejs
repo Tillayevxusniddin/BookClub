@@ -1,0 +1,34 @@
+<div class="detail-section">
+    <h2><%= club.name %></h2>
+    <p class="meta-info">Admin: <%= club.admin ? club.admin.username : 'N/A' %></p>
+    <p class="description"><%= club.description %></p>
+    <div class="detail-actions">
+        <a href="/clubs" class="btn btn-secondary">Return to club list</a>
+        <% if (currentUser && (currentUser.role === 'admin' || currentUser.id === club.adminId)) { %>
+            <a href="/clubs/<%= club.id %>/edit" class="btn btn-primary">Edit Club</a>
+            <form action="/clubs/<%= club.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this club?');">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-danger">Delete Club</button>
+            </form>
+        <% } %>
+    </div>
+    <div class="reviews-section">
+        <h3>Club Books</h3>
+        <% if (club.Books && club.Books.length > 0) { %>
+            <div class="card-grid">
+                <% club.Books.forEach(book => { %>
+                    <div class="card">
+                        <h3><%= book.title %></h3>
+                        <p><strong>Author:</strong> <%= book.author %></p>
+                        <p><%= book.description.substring(0, 100) %><% if (book.description.length > 100) { %>...<% } %></p>
+                        <div class="actions">
+                            <a href="/books/<%= book.id %>" class="btn btn-primary">Detail</a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>There are no books in this club yet.</p>
+        <% } %>
+    </div>
+</div>

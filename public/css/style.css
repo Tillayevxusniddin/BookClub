@@ -1,0 +1,676 @@
+/* public/css/style.css */
+
+/* Zamonaviy va o'qish uchun qulay Google shriftlari */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;700&display=swap');
+
+:root {
+    --primary-accent: #d62828;  /* Yorqin qizil aksent */
+    --secondary-accent: #003049; /* To'q ko'k (meta-ma'lumotlar uchun) */
+    --text-color: #212529;      /* Deyarli qora matn */
+    --bg-light: #f8f9fa;       /* Juda och kulrang fon */
+    --bg-panel: #ffffff;       /* Panellar uchun oq fon */
+    --border-color: #dee2e6;    /* Och kulrang chegaralar */
+    --success-color: #2a9d8f;   /* Yashil (muvaffaqiyat) */
+    --error-color: var(--primary-accent); /* Qizil (xatolik) */
+    
+    --font-heading: 'Oswald', sans-serif; /* Qalin va zamonaviy sarlavha shrifti */
+    --font-body: 'Inter', sans-serif;     /* O'qish uchun qulay asosiy shrift */
+    
+    --border-radius: 6px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition-speed: 0.2s ease-in-out;
+}
+
+/* Global sozlamalar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    font-family: var(--font-heading);
+    color: var(--primary-accent);
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.logo a:hover {
+    opacity: 0.8;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color var(--transition-speed);
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-accent);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    transition: width var(--transition-speed);
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--primary-accent);
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 100%;
+}
+
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 40px 0;
+}
+
+/* Flash xabarlar */
+.flash-messages .message {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+    color: #fff;
+    font-weight: 500;
+}
+.flash-messages .success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+.flash-messages .error {
+    background-color: var(--error-color);
+    border-color: var(--error-color);
+}
+.flash-messages p { margin: 0; }
+
+/* Formalar, Kartalar va Detal panellari */
+.form-container, .detail-section, .card {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--box-shadow);
+    transition: box-shadow var(--transition-speed), transform var(--transition-speed);
+}
+
+.form-container {
+    max-width: 550px;
+    margin: 40px auto;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Sarlavhalar */
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    color: var(--secondary-accent);
+    margin-bottom: 1.5rem;
+}
+.form-container h1, .detail-section h1, .container > .page-title-container h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    color: var(--primary-accent);
+}
+.detail-section h2 {
+    font-size: 2.5rem;
+    border-bottom: 2px solid var(--primary-accent);
+    padding-bottom: 10px;
+    color: var(--secondary-accent);
+}
+.card h3 {
+    font-size: 1.5rem;
+    color: var(--primary-accent);
+}
+
+
+/* Formalar elementlari */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.15);
+    outline: none;
+}
+
+
+/* Tugmalar va Havolalar */
+button, .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    transition: all var(--transition-speed);
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary, button[type="submit"] {
+    background-color: var(--primary-accent);
+    color: #fff;
+}
+.btn-primary:hover, button[type="submit"]:hover {
+    background-color: #a11d1d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(214, 40, 40, 0.2);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--secondary-accent);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-accent);
+    color: #fff;
+    border-color: var(--secondary-accent);
+}
+
+.btn-danger {
+    background-color: #6c757d;
+    color: #fff;
+}
+.btn-danger:hover {
+    background-color: #5a6268;
+}
+
+form { display: inline-block; }
+
+.form-link {
+    text-align: center;
+    margin-top: 20px;
+}
+.form-link a {
+    color: var(--primary-accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+.form-link a:hover {
+    text-decoration: underline;
+}
+
+/* List sahifalar */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+.card {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card .actions {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Detail sahifalar */
+.detail-section p {
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+}
+.detail-section .meta-info {
+    font-style: italic;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+.detail-section .description {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+.detail-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Sharhlar (Reviews/Comments) */
+.reviews-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+.review-item {
+    background: var(--bg-light);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+.review-item strong { color: var(--secondary-accent); }
+.review-item .meta {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 10px;
+}
+
+
+/* O'chirilgan stillar o'rniga SHU KODNI QO'YING */
+
+/* Sharhlar (Reviews) ichidagi kommentlar bloki uchun umumiy stillar */
+.review-item .comment-toggle-container {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.review-item .view-comments-btn {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+.review-item .view-comments-btn:hover {
+    color: var(--primary-accent);
+}
+
+.review-item .collapsible-comments {
+    overflow: hidden;
+    max-height: 0;
+    padding: 0 15px; /* Yon taraflarda joy qoldirish uchun */
+    margin-top: 0;
+    background: transparent;
+    border: none;
+    transition: all 0.4s ease-in-out;
+}
+
+.review-item .collapsible-comments.show {
+    max-height: 500px; /* Ochilgandagi maksimal balandlik */
+    overflow-y: auto;  /* Kerak bo'lsa scroll paydo bo'ladi */
+    margin-top: 15px;
+    padding: 15px;
+    background: #f0f2f5; /* Orqa fon rangi */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+/* Scrollbarni chiroyliroq qilish (ixtiyoriy) */
+.review-item .collapsible-comments.show::-webkit-scrollbar {
+  width: 8px;
+}
+.review-item .collapsible-comments.show::-webkit-scrollbar-track {
+  background: #e9ecef;
+}
+.review-item .collapsible-comments.show::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.review-item .collapsible-comments.show::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+
+.comment-item {
+    display: flex; /* Elementlarni bir qatorda tekislash uchun */
+    flex-wrap: wrap; /* Sig'maganda pastga tushirish */
+    align-items: center; /* Vertikal tekislash */
+    padding: 10px 0; /* Vertikal paddingni kamaytiramiz */
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* Komment ichidagi matn va meta-ma'lumotlar */
+.comment-item > strong, .comment-item > p {
+    width: 100%; /* Matn to'liq kenglikni egallashi uchun */
+    margin-bottom: 5px;
+    padding-right: 10px; /* O'ng tomonda joy qoldirish */
+}
+.comment-item > strong { font-size: 0.9rem; }
+.comment-item > p { font-size: 1rem; }
+
+.comment-item .meta {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: left;
+    margin-right: auto; /* O'zini chapga suradi */
+}
+
+/* Komment ichidagi tugmalar bloki */
+.comment-item .actions {
+    margin-left: auto; /* O'zini o'ngga suradi */
+}
+
+/* 2. Kichik tugmalar uchun maxsus klass (.btn-small) */
+.btn.btn-small {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+
+/* Footer */
+footer {
+    background-color: var(--secondary-accent);
+    color: var(--bg-light);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto;
+}
+footer p { margin: 0; }
+
+/* Rating yulduzlari */
+.stars {
+    color: var(--primary-accent);
+    font-size: 1.3rem;
+}
+.stars.inactive { color: #ced4da; }
+.star-input {
+    display: flex;
+    justify-content: center;
+    direction: rtl; 
+}
+.star-input label {
+    font-size: 2.5rem;
+    color: #ced4da;
+    cursor: pointer;
+    transition: color var(--transition-speed);
+}
+.star-input label:hover,
+.star-input label:hover ~ label,
+.star-input input:checked ~ label {
+    color: var(--primary-accent);
+}
+.star-input input { display: none; }
+
+/* Responsivlik */
+@media (max-width: 768px) {
+    header .container { flex-direction: column; gap: 1rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    h1, h2 { font-size: 2rem; }
+}
+
+
+
+/* public/css/style.css fayliga qo'shilsin */
+
+
+
+
+.view-comments-btn:hover {
+    color: var(--primary-accent); /* Qizil rang */
+}
+
+
+/* Scrollbarni chiroyliroq qilish (ixtiyoriy) */
+.collapsible-comments::-webkit-scrollbar {
+  width: 8px;
+}
+.collapsible-comments::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.collapsible-comments::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.collapsible-comments::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+
+
+
+/* Blog va kommentlar uchun qo'shimcha stillar */
+.post-images {
+    margin: 20px 0;
+}
+.post-image-item {
+    max-width: 100%;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+}
+.hashtags {
+    margin-top: 20px;
+}
+.hashtag-badge {
+    display: inline-block;
+    background-color: #e9ecef;
+    color: var(--secondary-accent);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+#replying-to-container {
+    background: #fff3cd;
+    padding: 8px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ffeeba;
+}
+#cancel-reply-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    float: right;
+    line-height: 1;
+}
+
+.blog-comment-list {
+    margin-top: 20px;
+}
+.blog-comment-item {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+.blog-comment-item:last-child {
+    border-bottom: none;
+}
+.comment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+.comment-meta .reply-btn {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--secondary-accent);
+    font-size: 0.8rem;
+}
+.comment-meta .reply-btn:hover {
+    color: var(--primary-accent);
+}
+
+
+
+
+.comment-toggle-container {
+    margin-top: 10px;
+}
+
+.toggle-replies-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-accent);
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 5px 0;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.toggle-replies-btn:hover {
+    color: var(--primary-accent);
+}
+
+.toggle-replies-btn .arrow {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 0.8em;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Javoblar konteyneri uchun stillar */
+.replies-container {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease-in-out;
+    border-left: 2px solid #e9ecef;
+    padding-left: 15px;
+    margin-left: 10px;
+}
+
+.replies-container.show {
+    max-height: 1500px; /* Ochilganda yetarlicha balandlik */
+    margin-top: 10px;
+}
+
+
+
+.comments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.comments-header h3 {
+    margin-bottom: 0; /* h3 ning pastki marginini olib tashlaymiz */
+}
+
+.toggle-all-comments-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 8px 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.toggle-all-comments-btn:hover {
+    background-color: var(--bg-light);
+    border-color: #adb5bd;
+}
+
+.toggle-all-comments-btn .arrow {
+    margin-right: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Butun kommentlar bloki uchun konteyner */
+.all-comments-wrapper {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.all-comments-wrapper.show {
+    max-height: 5000px; /* Yetarlicha katta balandlik */
+}
+

@@ -1,0 +1,31 @@
+<div class="form-container">
+    <h1><%= book.id ? 'Edit book' : 'Add new book' %></h1>
+    <form action="<%= book.id ? '/books/' + book.id + '/edit' : '/books/create' %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="form-group">
+            <label for="title">Book Name:</label>
+            <input type="text" id="title" name="title" value="<%= book.title || '' %>" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" value="<%= book.author || '' %>" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="8" required><%= book.description || '' %></textarea>
+        </div>
+        <div class="form-group">
+            <label for="clubId">Select Club:</label>
+            <select id="clubId" name="clubId" required>
+                <option value="">-- Select Club --</option>
+                <% clubs.forEach(clubOption => { %>
+                    <option value="<%= clubOption.id %>" <%= (book.clubId === clubOption.id || (book.id === undefined && clubOption.id === (typeof clubs !== 'undefined' && clubs.length > 0 ? clubs[0].id : ''))) ? 'selected' : '' %>>
+                        <%= clubOption.name %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+        <button type="submit"><%= book.id ? 'Update' : 'Add' %></button>
+    </form>
+    <p class="form-link"><a href="/books">Return to book list</a></p>
+</div>

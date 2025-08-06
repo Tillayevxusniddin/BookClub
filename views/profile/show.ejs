@@ -1,0 +1,18 @@
+<div class="detail-section">
+    <h2><%= user.username %>'s Profile</h2>
+    <p><strong>Email:</strong> <%= user.email %></p>
+    <p><strong>Firstname:</strong> <%= user.Profile.firstName %></p>
+    <p><strong>Lastname:</strong> <%= user.Profile.lastName %></p>
+    <p><strong>Role:</strong> <%= user.role %></p>
+    <% if (user.Profile.bio) { %>
+        <p class="description"><strong>Bio:</strong> <br><%= user.Profile.bio %></p>
+    <% } else { %>
+        <p class="description"><strong>Bio:</strong> Nothing has been added yet.</p>
+    <% } %>
+
+    <div class="detail-actions">
+        <% if (currentUser && currentUser.id === user.id) { %>
+            <a href="/profile/<%= user.id %>/edit" class="btn btn-primary">Edit Profile</a>
+        <% } %>
+    </div>
+</div>

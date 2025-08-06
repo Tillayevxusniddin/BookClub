@@ -1,0 +1,24 @@
+<div class="form-container">
+    <h1>Edit Profile</h1>
+    <form action="/profile/<%= user.id %>/edit" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="form-group">
+            <label for="firstName">Firstname:</label>
+            <input type="text" id="firstName" name="firstName" value="<%= user.Profile.firstName %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Lastname:</label>
+            <input type="text" id="lastName" name="lastName" value="<%= user.Profile.lastName %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" rows="6"><%= user.Profile.bio %></textarea>
+        </div>
+
+        <button type="submit">Save</button>
+    </form>
+    <p class="form-link"><a href="/profile/<%= user.id %>">Return Profile</a></p>
+</div>

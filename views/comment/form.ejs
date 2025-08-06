@@ -1,0 +1,13 @@
+<div class="form-container">
+    <h1><%= comment.id ? 'Edit comment' : `Write a comment on the review` %></h1>
+    <p class="meta-info">Main Comment: "<%= review.comment.substring(0, 50) %><% if (review.comment.length > 50) { %>...<% } %>"</p>
+    <form action="<%= comment.id ? '/comments/' + comment.id + '/edit' : '/comments/reviews/' + review.id + '/add' %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="form-group">
+            <label for="content">Comment:</label>
+            <textarea id="content" name="content" rows="6" required><%= comment.content || '' %></textarea>
+        </div>
+        <button type="submit"><%= comment.id ? 'Update' : 'Add Comment' %></button>
+    </form>
+    <p class="form-link"><a href="/books/<%= review.bookId %>">Return to the book</a></p>
+</div>

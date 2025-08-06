@@ -1,0 +1,82 @@
+<div class="detail-section">
+    <h2><%= book.title %></h2>
+    <p class="meta-info"><strong>Author:</strong> <%= book.author %></p>
+    <p class="meta-info"><strong>Club:</strong> <%= book.Club ? book.Club.name : 'N/A' %></p>
+    <p class="description"><%= book.description %></p>
+    <div class="detail-actions">
+        <a href="/books" class="btn btn-secondary">Return to book list</a>
+        <% if (currentUser && currentUser.role === 'admin') { %>
+            <a href="/books/<%= book.id %>/edit" class="btn btn-primary">Edit Book</a>
+            <form action="/books/<%= book.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-danger">Delete Book</button>
+            </form>
+        <% } %>
+    </div>
+    <div class="reviews-section">
+        <h3>Book Reviews
+            <% if (currentUser) { %>
+                <a href="/reviews/books/<%= book.id %>/add" class="btn btn-primary add-button-inline">Add Review</a>
+            <% } %>
+        </h3>
+        <% if (book.Reviews && book.Reviews.length > 0) { %>
+            <div class="review-list">
+                <% book.Reviews.forEach(review => { %>
+                    <div class="review-item">
+                        <strong><%= review.User ? review.User.username : 'Unknown User' %></strong>
+                        <div class="rating">
+                            <% for (let i = 0; i < review.rating; i++) { %><span class="stars">&#9733;</span><% } %>
+                            <% for (let i = review.rating; i < 5; i++) { %><span class="stars inactive">&#9733;</span><% } %>
+                        </div>
+                        <p><%= review.comment %></p>
+                        <p class="meta">Written: <%= new Date(review.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                        
+                        <div class="actions">
+                            <% if (currentUser && (currentUser.id === review.userId || currentUser.role === 'admin')) { %>
+                                <a href="/reviews/<%= review.id %>/edit" class="btn btn-secondary btn-small">Edit Review</a>
+                                <form action="/reviews/<%= review.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this review?');" style="display:inline-block;">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button type="submit" class="btn btn-danger btn-small">Delete Review</button>
+                                </form>
+                            <% } %>
+                            <% if (currentUser) { %>
+                                <a href="/comments/reviews/<%= review.id %>/add" class="btn btn-primary btn-small">Add Comment</a>
+                            <% } %>
+                        </div>
+
+                        <% if (review.Comments && review.Comments.length > 0) { %>
+                            <div class="comment-toggle-container">
+                                <a href="#" class="view-comments-btn" data-target="#comments-for-review-<%= review.id %>">
+                                    View all <%= review.Comments.length %> comments
+                                </a>
+                            </div>
+
+                            <div class="comments-section collapsible-comments" id="comments-for-review-<%= review.id %>">
+                                <div class="comment-list">
+                                    <% review.Comments.forEach(comment => { %>
+                                        <div class="comment-item">
+                                            <strong><%= comment.User ? comment.User.username : 'Unknown' %>:</strong>
+                                            <p><%= comment.content %></p>
+                                            <p class="meta">Written: <%= new Date(comment.createdAt).toLocaleDateString('en-US') %></p>
+                                            <div class="actions">
+                                                <% if (currentUser && (currentUser.id === comment.userId || currentUser.role === 'admin')) { %>
+                                                    <a href="/comments/<%= comment.id %>/edit" class="btn btn-secondary btn-small">Edit</a>
+                                                    <form action="/comments/<%= comment.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this comment?');" style="display:inline-block;">
+                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                        <button type="submit" class="btn btn-danger btn-small">Delete</button>
+                                                    </form>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>There are no reviews for this book yet.</p>
+        <% } %>
+    </div>
+</div>

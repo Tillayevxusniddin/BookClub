@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "your_password",
+    "database": "your_database",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "xusniddin2004",
+    "database": "bookclub_test",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "xusniddin2004",
+    "database": "bookclub_production",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}

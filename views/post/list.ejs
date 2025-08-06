@@ -1,0 +1,27 @@
+<div class="page-title-container" style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Blogdagi So'nggi Postlar</h2>
+    <% if (currentUser) { %>
+        <a href="/posts/create" class="btn btn-primary">Yangi post yaratish</a>
+    <% } %>
+</div>
+
+<% if (posts && posts.length > 0) { %>
+    <div class="card-grid">
+        <% posts.forEach(post => { %>
+            <div class="card">
+                <div>
+                    <h3><a href="/posts/<%= post.id %>"><%= post.title %></a></h3>
+                    <% if(post.User) { %>
+                       <p><small>Muallif: <a href="/profile/<%= post.User.id %>"><%= post.User.username %></a></small></p>
+                    <% } %>
+                    <p><%= post.content.substring(0, 150) %>...</p>
+                </div>
+                <div class="actions">
+                    <a href="/posts/<%= post.id %>" class="btn btn-secondary">To'liq o'qish</a>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+<% } else { %>
+    <p>Hali hech kim post yozmabdi. Birinchi bo'lib siz yozasizmi?</p>
+<% } %>

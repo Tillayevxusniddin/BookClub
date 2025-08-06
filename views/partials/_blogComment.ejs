@@ -1,0 +1,40 @@
+<% if (comment) { %>
+    <div class="blog-comment-item" style="margin-left: <%= (level || 0) * 20 %>px;">
+        <div class="comment-content">
+            <p>
+                <strong>
+                    <% if (comment.User && comment.User.id) { %>
+                        <a href="/profile/<%= comment.User.id %>"><%= comment.User.username %></a>
+                    <% } else { %>
+                        <span>Anonim</span>
+                    <% } %>:
+                </strong>
+                <%- comment.content ? comment.content.replace(/\n/g, '<br>') : '' %>
+            </p>
+            <div class="comment-meta">
+                <small><%= new Date(comment.createdAt).toLocaleString() %></small>
+                <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                    <a href="#" class="reply-btn" data-comment-id="<%= comment.id %>" data-username="<%= comment.User ? comment.User.username : 'Anonim' %>">Javob yozish</a>
+                <% } %>
+            </div>
+        </div>
+
+        <%# --- O'ZGARTIRILGAN QISM --- %>
+        <%# Agar kommentning javoblari bo'lsa, ochib-yopish tugmasi va konteynerini qo'shamiz %>
+        <% if (comment.Replies && comment.Replies.length > 0) { %>
+            <div class="comment-toggle-container">
+                <button class="toggle-replies-btn" data-target-id="blog-replies-<%= comment.id %>">
+                    <span class="arrow">▶</span>
+                    <span class="btn-text">Javoblarni ko'rish (<%= comment.Replies.length %>)</span>
+                </button>
+            </div>
+            
+            <%# Mavjud ".replies" diviga ID va yangi klass qo'shamiz %>
+            <div class="replies-container" id="blog-replies-<%= comment.id %>">
+                <% comment.Replies.forEach(reply => { %>
+                    <%- include('_blogComment', { comment: reply, level: (level || 0) + 1, currentUser: currentUser }) %>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+<% } %>

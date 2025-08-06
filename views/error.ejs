@@ -1,0 +1,10 @@
+<div class="detail-section" style="text-align: center;">
+    <h1 class="error-title"><%= typeof title !== 'undefined' ? title : 'An error occurred.' %></h1>
+    <p style="font-size: 1.2rem; margin-top: 20px;"><%= typeof message !== 'undefined' ? message : 'Sorry, an unexpected error occurred.' %></p>
+    <% if (typeof error !== 'undefined' && error && process.env.NODE_ENV !== 'production') { %>
+        <pre><%= error.stack %></pre>
+    <% } %>
+    <div class="detail-actions" style="justify-content: center;">
+        <a href="/" class="btn btn-primary" style="margin-top: 30px;">Return to homepage</a>
+    </div>
+</div>

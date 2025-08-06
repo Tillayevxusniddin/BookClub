@@ -1,0 +1,24 @@
+<header>
+    <div class="container">
+        <div class="logo">
+            <a href="/">Book Club</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/clubs" class="<%= typeof activePage !== 'undefined' && activePage === 'clubs' ? 'active' : '' %>">Clubs</a></li>
+                <li><a href="/books" class="<%= typeof activePage !== 'undefined' && activePage === 'books' ? 'active' : '' %>">Books</a></li>
+                <li><a href="/posts" class="<%= typeof activePage !== 'undefined' && activePage === 'posts' ? 'active' : '' %>">Blogs</a></li>
+                <% if (currentUser) { %>
+                    <li><a href="/profile/<%= currentUser.id %>" class="<%= typeof activePage !== 'undefined' && activePage === 'profile' ? 'active' : '' %>">Profile (<%= currentUser.username %>)</a></li>
+                    <% if (currentUser.role === 'admin') { %>
+                        <li><a href="/admin" class="<%= typeof activePage !== 'undefined' && activePage === 'admin' ? 'active' : '' %>">Admin Panel</a></li>
+                    <% } %>
+                    <li><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login" class="<%= typeof activePage !== 'undefined' && activePage === 'login' ? 'active' : '' %>">Sign in</a></li>
+                    <li><a href="/register" class="<%= typeof activePage !== 'undefined' && activePage === 'register' ? 'active' : '' %>">Sign up</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </div>
+</header>

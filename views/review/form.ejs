@@ -1,0 +1,25 @@
+<div class="form-container">
+    <h1><%= review.id ? 'Edit review' : `Write review for ${book.title}` %></h1>
+    <form action="<%= review.id ? '/reviews/' + review.id + '/edit' : '/reviews/books/' + book.id + '/add' %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="form-group">
+            <label for="rating">Rating:</label>
+            <div class="star-input">
+                <input type="radio" id="rating-5" name="rating" value="5" <%= (review.rating == 5 || (!review.rating && 5 == 0)) ? 'checked' : '' %> required><label for="rating-5">&#9733;</label>
+                <input type="radio" id="rating-4" name="rating" value="4" <%= review.rating == 4 ? 'checked' : '' %>><label for="rating-4">&#9733;</label>
+                <input type="radio" id="rating-3" name="rating" value="3" <%= review.rating == 3 ? 'checked' : '' %>><label for="rating-3">&#9733;</label>
+                <input type="radio" id="rating-2" name="rating" value="2" <%= review.rating == 2 ? 'checked' : '' %>><label for="rating-2">&#9733;</label>
+                <input type="radio" id="rating-1" name="rating" value="1" <%= review.rating == 1 ? 'checked' : '' %>><label for="rating-1">&#9733;</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" rows="8" required><%= review.comment || '' %></textarea>
+        </div>
+
+        <button type="submit"><%= review.id ? 'Update' : 'Add Review' %></button>
+    </form>
+    <p class="form-link"><a href="/books/<%= book.id %>">Return to the book</a></p>
+</div>

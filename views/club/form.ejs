@@ -1,0 +1,16 @@
+<div class="form-container">
+    <h1><%= club.id ? 'Edit club' : 'Create new club' %></h1>
+    <form action="<%= club.id ? '/clubs/' + club.id + '/edit' : '/clubs/create' %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="form-group">
+            <label for="name">Club Name:</label>
+            <input type="text" id="name" name="name" value="<%= club.name || '' %>" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="8" required><%= club.description || '' %></textarea>
+        </div>
+        <button type="submit"><%= club.id ? 'Update' : 'Create' %></button>
+    </form>
+    <p class="form-link"><a href="/clubs">Return to club list</a></p>
+</div>
